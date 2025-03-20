@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Random Music Player</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden; /* Скрываем скроллбары */
+            cursor: pointer; /* Меняем курсор на "руку" */
+            background-color: black; /* Фон (по желанию) */
+        }
+
+        /* Скрываем все элементы по умолчанию */
+        h1, audio, #nowPlaying {
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Все элементы, кроме скрипта, можно удалить -->
+    <h1>Random Music Player</h1>  <!-- Этот заголовок не будет виден -->
+    <audio id="audioPlayer"></audio> <!-- Плеер тоже не будет виден -->
+    <div id="nowPlaying"></div>        <!-- И это тоже -->
+ 
+
+    <script>
+        const musicFiles = [
+           
+            "Стоны.ogg"
+        ];
+
+        let isPlaying = false;
+
+        function playRandomMusic() {
+            if (isPlaying) return;
+            isPlaying = true;
+
+            const randomIndex = Math.floor(Math.random() * musicFiles.length);
+            const audioPlayer = document.getElementById("audioPlayer");
+            //const nowPlaying = document.getElementById("nowPlaying"); // Больше не нужно
+
+            audioPlayer.src = musicFiles[randomIndex];
+            audioPlayer.play();
+
+            //const fileName = musicFiles[randomIndex].split('.').slice(0, -1).join('.');
+            //nowPlaying.textContent = "Now playing: " + fileName; // Больше не нужно
+
+            audioPlayer.addEventListener('ended', function() {
+                playRandomMusic();
+            });
+        }
+
+        function requestFullScreen(element) {
+            if (element.requestFullscreen) {
+                element.requestFullscreen();
+            } else if (element.mozRequestFullScreen) {
+                element.mozRequestFullScreen();
+            } else if (element.webkitRequestFullscreen) {
+                element.webkitRequestFullscreen();
+            } else if (element.msRequestFullscreen) {
+                element.msRequestFullscreen();
+            }
+        }
+
+        document.addEventListener('click', function() {
+            playRandomMusic();
+            requestFullScreen(document.documentElement);
+        });
+
+    </script>
+</body>
+</html>
